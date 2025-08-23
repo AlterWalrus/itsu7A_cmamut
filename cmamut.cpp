@@ -1,9 +1,9 @@
-#include <conio.h>
+#include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <conio.h>
 #include <string>
 #include <vector>
-#include <algorithm>
 using std::cout;
 using std::cin;
 using std::cerr;
@@ -13,7 +13,6 @@ using std::ifstream;
 using std::ofstream;
 using std::vector;
 
-//from Charles Salvia on stackoverflow.com, ty
 bool is_number(const std::string& s){
 	return !s.empty() && std::find_if(s.begin(), 
         s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
@@ -21,7 +20,7 @@ bool is_number(const std::string& s){
 
 vector<string> tokens;
 
-string get_code_string(string file_name){
+string read_file(string file_name){
 	ifstream file(file_name);
     if(!file.is_open()){
         cerr << "[ERRROR] Archivo no encontrado :'v" << endl;
@@ -51,27 +50,25 @@ void save_asm(string file_name, string code){
 
 void tokenize(string code){
 	string token = "";
-	bool literal_string = false;
+	bool in_string = false;
 
 	for(char c : code){
-		if(c == '\t') continue;
-
-		if(c == '"'){
-			literal_string = !literal_string;
-		}
-
-		if(c == ' '){
-			if(!literal_string){
+		if(isspace(c) && !in_string) {
+			if(!token.empty()) {
 				tokens.push_back(token);
-				token = "";
-			}else{
-				token += ' ';
+				token.clear();
 			}
-		}else{
+		} else if(c == '"') {
+			in_string = !in_string;
+			token += c;
+			if(!in_string) {
+				tokens.push_back(token);
+				token.clear();
+			}
+		} else {
 			token += c;
 		}
 	}
-	tokens.push_back(token);
 }
 
 string process_code(){
@@ -153,18 +150,20 @@ string process_code(){
 	return final_code;
 }
 
-int main(){
-	string file_name = "";
-	cin >> file_name;
-	if(file_name == ""){
-		return 0;
-	}
-
-	string code = get_code_string(file_name+".cmt");
+bool compile(string file_name){
+	string code = read_file(file_name+".cmt");
+	if(code.empty()) return false;
+	
 	tokenize(code);
 	string final_code = process_code();
 	save_asm(file_name+".asm", final_code);
-	if(final_code != ""){
+}
+
+int main(){
+	string file_name = "";
+	cin >> file_name;
+	
+	if(compile(file_name)){
 		cout << "compilacion exitosa papus Bv";
 	}
 
