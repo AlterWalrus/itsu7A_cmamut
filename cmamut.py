@@ -64,7 +64,7 @@ def parser(code):
 
 #Start of compilation
 #file_name = input("file: ")
-file_name = "exports/test.cmt"
+file_name = "examples/hello.cmt"
 code = read_file(file_name)
 
 error = lexer(code)
