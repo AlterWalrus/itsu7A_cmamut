@@ -1,3 +1,4 @@
 whencuando
-	:v "hola mundo!"
+	var res = 2 + 2
+	:v res
 xdxd

@@ -1,24 +1,10 @@
 #Backend should be in english
 #Frontend can (and should) use spanish
 import sys
+from lexer import tokenize
+from parser import Parser
 
-class Node:
-	token = ""
-	prev = None
-	next = None
-	def __init__(self, t):
-		token = t
-
-#Analizers return -1 if everything is alright
-#error line otherwise
-
-alpha = 'abcdefghijklmnopqrstuvwxyz1234567890!?":+-\n\t '
-tokens = []
-symbols = []
-root = None
-curr = None
-
-def read_file(file_name) -> str:
+def read_file(file_name):
 	code = ""
 	try:
 		with open(file_name, "r") as f:
@@ -29,47 +15,24 @@ def read_file(file_name) -> str:
 	except:
 		sys.exit("[ERROR] No se puede abrir el archivo :'v")
 
-def lexer(code) -> int:
-	line = 1
-	token = ""
-	in_string = False
-	for c in code:
-		if c == '\n':
-			line += 1
-
-		#Error
-		if c not in alpha:
-			return line
-
-		#Build tokens
-		if c.isspace() and not in_string:
-			if not token == "":
-				tokens.append(token)
-				token = ""
-		elif c == '"':
-			in_string = not in_string
-			token += c
-			if not in_string:
-				tokens.append(token)
-				token = ""
-		else:
-			token += c
-	tokens.append(token)
-	return -1
-
-#Process tokens here or something idk
-def parser(code):
-	pass
-
-
 #Start of compilation
 #file_name = input("file: ")
 file_name = "examples/hello.cmt"
 code = read_file(file_name)
 
-error = lexer(code)
-if error > 0:
-	sys.exit("[ERROR] de analisis lexico en linea " + str(error))
+try:
+	tokens = tokenize(code)
+except Exception as e:
+	sys.exit(f"[ERROR LEXICO] {e}")
 
+print("Tokens: ")
 print(tokens)
+
+try:
+	parser = Parser(tokens)
+	ast = parser.parse()
+	print("\nArbol de Sintaxis Abstracta:")
+	print(ast)
+except Exception as e:
+	sys.exit(f"[ERROR SINTACTICO] {e}")
    
