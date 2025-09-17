@@ -10,6 +10,7 @@ class NodeType(Enum):
 	MATH = "MATH"
 	STR = "STR"
 	VAR = "VAR"
+	ASSIGN = "ASSIGN"
 	END = "END"
 
 class Node:
@@ -85,7 +86,6 @@ class Parser:
 		node = Node(NodeType.DEC)
 		self.next() #Consume var
 
-		#Var name
 		if not self.valid_var_name(self.curr_token):
 			raise SyntaxError(f"{self.curr_token} no es un nombre de variable valido")
 		
@@ -95,7 +95,7 @@ class Parser:
 		node.value = self.curr_token
 
 		self.next()
-		self.expect("=", "Forma de asignacion es var x = y")
+		self.expect("=", "Forma de declaracion es var x = y")
 
 		#only demo!!! get properly done later for complex operations and shit
 		node.add_child(Node(NodeType.MATH, self.curr_token))
@@ -106,7 +106,22 @@ class Parser:
 		pass
 
 	def parse_assign(self):
-		pass
+		node = Node(NodeType.ASSIGN)
+		
+		if not self.valid_var_name(self.curr_token):
+			raise SyntaxError(f"{self.curr_token} no es un nombre de variable valido")
+		
+		if self.curr_token in keywords:
+			raise SyntaxError(f"{self.curr_token} es una palabra reservada")
+		
+		node.value = self.curr_token
+
+		self.next()
+		self.expect("=", "Forma de asignacion es x = y")
+
+		#only demo!!! get properly done later for complex operations and shit
+		node.add_child(Node(NodeType.MATH, self.curr_token))
+		return node
 	
 	def parse_expression(self):
 		pass

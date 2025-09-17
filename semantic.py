@@ -1,25 +1,39 @@
-from parser import Node
+from parser import Node, NodeType
 
-def analyze(start_node: Node):
-    table = {}  # symbol table: var_name -> value/type/etc
-    curr_var_name = None
+table = {}
 
-    node = start_node
-    while node:
-        print(node.type, end="\t->\t")
-        print(node.value)
+def analyze(node: Node):
+	table = {}
+	nodes = [node]
 
-        if node.type == "DECLARAR_VAR":
-            if node.value in table:
-                raise TypeError(f"{node.value} ya ha sido declarada")
-            # register variable in the table (value 0 as placeholder)
-            table[node.value] = 0
-            curr_var_name = node.value
+	for node in nodes:
+		process_node(node)
+		nodes.extend(node.children)
 
-        elif node.type == "EXPRESION":
-            if not node.value.isnumeric():
-                raise TypeError(f"{curr_var_name} debe ser un número entero")
+	return table
 
-        node = node.next  # move forward in the linked list
+def process_node(node):
+	match node.type:
+		case NodeType.DEC:
+			valid_declaration(node)
+			table[node.value] = node.children[0].value
+		
+		case NodeType.ASSIGN:
+			valid_assign(node)
 
-    return table
+def valid_declaration(node):
+	val = node.children[0].value
+
+	if not val.isnumeric():
+		raise TypeError(f"el valor de {node.value} debe ser un entero positivo")
+	
+	if node.value in table.keys():
+		raise RuntimeError(f"la variable {node.value} ya ha sido declarada")
+
+def valid_assign(node):
+	val = node.children[0].value
+	if not val.isnumeric():
+		raise TypeError(f"el valor de {node.value} debe ser un entero positivo")
+	
+	if not node.value in table.keys():
+		raise RuntimeError(f"la variable {node.value} no ha sido declarada")

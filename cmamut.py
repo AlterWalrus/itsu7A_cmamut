@@ -34,12 +34,10 @@ try:
 except Exception as e:
 	sys.exit(f"[ERROR SINTACTICO] {e}")
 
-
-'''
 try:
 	symbol_table = semantic.analyze(ast)
 except Exception as e:
 	sys.exit(f"[ERROR SEMANTICO] {e}")
-'''
+
 
 print(ast)
