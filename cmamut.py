@@ -3,6 +3,9 @@
 import sys
 from lexer import tokenize
 from parser import Parser
+import semantic
+
+symbol_table = {}
 
 def read_file(file_name):
 	code = ""
@@ -15,7 +18,7 @@ def read_file(file_name):
 	except:
 		sys.exit("[ERROR] No se puede abrir el archivo :'v")
 
-#Start of compilation
+#---- Start of compilation ----
 #file_name = input("file: ")
 file_name = "examples/hello.cmt"
 code = read_file(file_name)
@@ -25,14 +28,18 @@ try:
 except Exception as e:
 	sys.exit(f"[ERROR LEXICO] {e}")
 
-print("Tokens: ")
-print(tokens)
-
 try:
 	parser = Parser(tokens)
 	ast = parser.parse()
-	print("\nArbol de Sintaxis Abstracta:")
-	print(ast)
 except Exception as e:
 	sys.exit(f"[ERROR SINTACTICO] {e}")
-   
+
+
+'''
+try:
+	symbol_table = semantic.analyze(ast)
+except Exception as e:
+	sys.exit(f"[ERROR SEMANTICO] {e}")
+'''
+
+print(ast)

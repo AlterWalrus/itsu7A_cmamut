@@ -1,4 +1,5 @@
 whencuando
-	var res = 2 + 2
-	:v res
+	var n = 2
+	var n1 = 90
+	:v "hola"
 xdxd
