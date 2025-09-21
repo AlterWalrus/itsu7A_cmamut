@@ -28,17 +28,14 @@ def classify_token(token: str, line: int):
 
 def tokenize(code):
 	tokens = []
-	line = 0
+	line = 1
 	token = ""
 	in_string = False
 	in_comment = False
 
 	for c in code:
-		if c == '\n':
-			line += 1
-			if in_comment:
-				in_comment = False
-
+		if c == '\n' and in_comment:
+			in_comment = False
 		if c == '!' and not in_string:
 			in_comment = True
 		if in_comment:
@@ -57,5 +54,8 @@ def tokenize(code):
 				token = ""
 		else:
 			token += c
+		
+		if c == '\n':
+			line += 1
 	tokens.append(classify_token(token, line))
 	return tokens

@@ -27,22 +27,22 @@ try:
 	tokens = tokenize(code)
 except Exception as e:
 	sys.exit(f"[ERROR LEXICO] {e}")
-
 for t in tokens:
 	print(t)
+print()
+print("-"*32)
 
 try:
 	parser = Parser(tokens)
 	ast = parser.parse()
 except Exception as e:
 	sys.exit(f"[ERROR SINTACTICO] {e}")
+print(ast)
 
-'''
+print("-"*32)
+
 try:
 	symbol_table = semantic.analyze(ast)
 except Exception as e:
 	sys.exit(f"[ERROR SEMANTICO] {e}")
-
-'''
-
-print(ast)
+print(symbol_table)

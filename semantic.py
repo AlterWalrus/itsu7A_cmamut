@@ -3,7 +3,6 @@ from parser import Node, NodeType
 table = {}
 
 def analyze(node: Node):
-	table = {}
 	nodes = [node]
 
 	for node in nodes:
@@ -18,7 +17,7 @@ def process_node(node):
 			valid_declaration(node)
 			table[node.value] = node.children[0].value
 		
-		case NodeType.ASSIGN:
+		case NodeType.ASS:
 			valid_assign(node)
 		
 		case NodeType.PRINT:
