@@ -20,6 +20,9 @@ def process_node(node):
 		
 		case NodeType.ASSIGN:
 			valid_assign(node)
+		
+		case NodeType.PRINT:
+			valid_print(node)
 
 def valid_declaration(node):
 	val = node.children[0].value
@@ -37,3 +40,8 @@ def valid_assign(node):
 	
 	if not node.value in table.keys():
 		raise RuntimeError(f"la variable {node.value} no ha sido declarada")
+
+def valid_print(node):
+	if node.value[0] != '"' :
+		if not node.value in table.keys():
+			raise RuntimeError(f"la variable {node.value} no ha sido declarada")
