@@ -24,19 +24,10 @@ def process_node(node):
 			valid_print(node)
 
 def valid_declaration(node):
-	val = node.children[0].value
-
-	if not val.isnumeric():
-		raise TypeError(f"el valor de {node.value} debe ser un entero positivo")
-	
 	if node.value in table.keys():
 		raise RuntimeError(f"la variable {node.value} ya ha sido declarada")
 
 def valid_assign(node):
-	val = node.children[0].value
-	if not val.isnumeric():
-		raise TypeError(f"el valor de {node.value} debe ser un entero positivo")
-	
 	if not node.value in table.keys():
 		raise RuntimeError(f"la variable {node.value} no ha sido declarada")
 

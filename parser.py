@@ -27,6 +27,7 @@ class Parser:
 		program = Node(NodeType.START)
 		while self.curr_token and self.curr_token.value != "xdxd":
 			if self.curr_token.type == "ENDL":
+				self.jump()
 				continue
 			statement = self.parse_statement()
 			program.add_child(statement)
@@ -44,7 +45,8 @@ class Parser:
 		elif self.curr_token.value == ":v":
 			return self.parse_print()
 		else:
-			return self.parse_assign()
+			pass
+			#return self.parse_assign()
 	
 	def parse_input(self):
 		node = Node(NodeType.INPUT)
@@ -82,13 +84,13 @@ class Parser:
 		ext = 1
 		while True:
 			next = self.tokens[self.pos+ext]
-			if next.type != "NUMBER" and next.type != "OPERATOR":
+			if next.type == "ENDL":
 				break
 			exp.append(next.value)
 			ext += 1
 		self.jump(ext-1)
 
-		post_exp = self.infix_to_postfix(exp)
+		post_exp = self.postfix(exp)
 		stack = []
 		op = {'+', '-', '*', '/'}
 		for t in post_exp:
@@ -110,33 +112,36 @@ class Parser:
 	def parse_expression(self):
 		pass
 
-	#this is actually hell
-	def infix_to_postfix(self, tokens):
+	#what the fuck
+	def postfix(self, tokens):
 		precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
-		associativity = {'+': 'L', '-': 'L', '*': 'L', '/': 'L'}
 		output = []
 		stack = []
 
 		for token in tokens:
-			if token.isdigit() or token not in precedence:
-				output.append(token)
-			
-			elif token in precedence:
-				while (stack and stack[-1] != '(' and
-					stack[-1] in precedence and
-					(precedence[stack[-1]] > precedence[token] or
-						(precedence[stack[-1]] == precedence[token] and associativity[token] == 'L'))):
-					output.append(stack.pop())
+			if token == '(':
 				stack.append(token)
-			
-			elif token == '(':
-				stack.append(token)
-			
+
 			elif token == ')':
 				while stack and stack[-1] != '(':
 					output.append(stack.pop())
+				if not stack:
+					raise ValueError("Error de parentesis")
 				stack.pop()
+			
+			elif token in precedence:
+				while (stack and stack[-1] != '(' and
+					((precedence[stack[-1]] > precedence[token]) or
+						(precedence[stack[-1]] == precedence[token] and token != '^'))):
+					output.append(stack.pop())
+				stack.append(token)
+
+			else:
+				output.append(token)
+
 		while stack:
+			if stack[-1] in ('(', ')'):
+				raise ValueError("Error de parentesis")
 			output.append(stack.pop())
-		
+
 		return output

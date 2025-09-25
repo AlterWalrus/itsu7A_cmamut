@@ -40,9 +40,10 @@ except Exception as e:
 print(ast)
 
 print("-"*32)
-
+'''
 try:
 	symbol_table = semantic.analyze(ast)
 except Exception as e:
 	sys.exit(f"[ERROR SEMANTICO] {e}")
 print(symbol_table)
+'''

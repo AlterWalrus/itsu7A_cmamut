@@ -1,6 +1,6 @@
 import re
 KEYWORDS		= {"whencuando", "var", ":v", "plox", "xdxd"}
-OPERATORS		= {"=", "+", "-", "*", "/"}
+OPERATORS		= {"=", "+", "-", "*", "/", "(", ")"}
 IDENTIFIER_RE	= re.compile(r"[a-z_][a-z0-9_]*$")
 
 class Token():
@@ -42,8 +42,13 @@ def tokenize(code):
 			continue
 
 		#Build tokens
-		if c.isspace() and not in_string:
-			if not token == "":
+		if (c.isspace() or c in OPERATORS) and not in_string:
+			if token:
+				tokens.append(classify_token(token, line))
+				token = ""
+			if c in OPERATORS:
+				tokens.append(classify_token(c, line))
+			if token != "":
 				tokens.append(classify_token(token, line))
 				token = ""
 		elif c == '"':
@@ -56,6 +61,7 @@ def tokenize(code):
 			token += c
 		
 		if c == '\n':
+			tokens.append(Token("", "ENDL", line))
 			line += 1
 	tokens.append(classify_token(token, line))
 	return tokens
