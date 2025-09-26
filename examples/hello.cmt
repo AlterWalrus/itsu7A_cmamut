@@ -1,4 +1,8 @@
 whencuando
-	var n2 = 9+((5+5)*6)
-	:v "hola papum"
+	var n1 = 0
+	var n2 = 0
+	plox n1
+	plox n2
+	var res = n1 + n2
+	:v res
 xdxd

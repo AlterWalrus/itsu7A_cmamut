@@ -45,8 +45,7 @@ class Parser:
 		elif self.curr_token.value == ":v":
 			return self.parse_print()
 		else:
-			pass
-			#return self.parse_assign()
+			return self.parse_assign()
 	
 	def parse_input(self):
 		node = Node(NodeType.INPUT)
@@ -55,7 +54,7 @@ class Parser:
 		if self.curr_token.type == "KEYWORD":
 			raise SyntaxError(f"{self.curr_token.value} es una palabra reservada")
 
-		node.value = self.curr_token
+		node.value = self.curr_token.value
 		return node
 
 	def parse_print(self):
@@ -69,9 +68,15 @@ class Parser:
 		return node
 		
 	def parse_declaration(self):
-		node = Node(NodeType.DEC)
+		#node = Node(NodeType.DEC)
 		self.jump() #Consume var
+		node = self.parse_assign()
+		node.type = NodeType.DEC
+		return node
 		
+	def parse_assign(self):
+		node = Node(NodeType.ASS)
+
 		if self.curr_token.type == "KEYWORD":
 			raise SyntaxError(f"{self.curr_token.value} es una palabra reservada")
 		
@@ -105,12 +110,6 @@ class Parser:
 		node.add_child(stack[0])
 
 		return node
-
-	def parse_assign(self):
-		pass
-	
-	def parse_expression(self):
-		pass
 
 	#what the fuck
 	def postfix(self, tokens):

@@ -4,6 +4,7 @@ import sys
 from lexer import tokenize
 from parser import Parser
 import semantic
+from intermediate import IRGen
 
 symbol_table = {}
 
@@ -28,22 +29,25 @@ try:
 except Exception as e:
 	sys.exit(f"[ERROR LEXICO] {e}")
 for t in tokens:
+	break
 	print(t)
-print()
-print("-"*32)
+#print()
+#print("-"*32)
 
 try:
 	parser = Parser(tokens)
 	ast = parser.parse()
 except Exception as e:
 	sys.exit(f"[ERROR SINTACTICO] {e}")
-print(ast)
+#print(ast)
+#print("-"*32)
 
-print("-"*32)
-'''
 try:
 	symbol_table = semantic.analyze(ast)
 except Exception as e:
 	sys.exit(f"[ERROR SEMANTICO] {e}")
-print(symbol_table)
-'''
+#print(symbol_table)
+
+inter = IRGen()
+ir = inter.generate(ast)
+print(ir)

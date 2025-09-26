@@ -10,7 +10,7 @@ class NodeType(Enum):
 	ASS = "ASS"
 
 class Node:
-	def __init__(self, type: NodeType, value=None):
+	def __init__(self, type: NodeType, value=""):
 		self.type = type
 		self.value = value
 		self.children = []
