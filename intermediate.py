@@ -9,6 +9,8 @@ class IRGen:
 		for node in root.children:
 
 			if node.type == NodeType.DEC or node.type == NodeType.ASS:
+				if node.type == NodeType.DEC:
+					code += f"\ndec {node.value}"
 				first_child = node.children[0]
 				if first_child.value.isdigit():
 					code += f"\n= {first_child.value} {node.value}"

@@ -5,6 +5,7 @@ from lexer import tokenize
 from parser import Parser
 import semantic
 from intermediate import IRGen
+from assembly import ASMGen
 
 symbol_table = {}
 
@@ -18,6 +19,14 @@ def read_file(file_name):
 			return code
 	except:
 		sys.exit("[ERROR] No se puede abrir el archivo :'v")
+
+def save_file(file_name: str, code: str):
+	try:
+		file_name = file_name.replace(".cmt", ".asm")
+		with open(file_name, "w") as f:
+			f.write(code)
+	except:
+		sys.exit("[ERROR] No se puede guardar el archivo :'v")
 
 #---- Start of compilation ----
 #file_name = input("file: ")
@@ -50,4 +59,8 @@ except Exception as e:
 
 inter = IRGen()
 ir = inter.generate(ast)
-print(ir)
+#print(ir)
+
+asm = ASMGen()
+final_code = asm.generate(ir)
+save_file(file_name, final_code)

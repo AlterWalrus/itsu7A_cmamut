@@ -1,8 +1,6 @@
 whencuando
 	var n1 = 0
-	var n2 = 0
 	plox n1
-	plox n2
-	var res = n1 + n2
-	:v res
+	n1 = n1 + 2
+	:v n1
 xdxd
