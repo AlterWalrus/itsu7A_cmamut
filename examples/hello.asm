@@ -14,11 +14,9 @@ lea dx, s
 int 21h
 endm
 
-call read_num
+mov al, 0
 mov n1, al
-mov al 2
-add n1 al
-mov ax n1
+mov al, n1
 call print_num
 
 int 27h

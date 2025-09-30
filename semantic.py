@@ -22,6 +22,9 @@ def process_node(node):
 		
 		case NodeType.PRINT:
 			valid_print(node)
+		
+		case NodeType.INPUT:
+			valid_input(node)
 
 def valid_declaration(node):
 	if node.value in table.keys():
@@ -32,6 +35,11 @@ def valid_assign(node):
 		raise RuntimeError(f"la variable {node.value} no ha sido declarada")
 
 def valid_print(node):
+	if node.value[0] != '"' :
+		if not node.value in table.keys():
+			raise RuntimeError(f"la variable {node.value} no ha sido declarada")
+
+def valid_input(node):
 	if node.value[0] != '"' :
 		if not node.value in table.keys():
 			raise RuntimeError(f"la variable {node.value} no ha sido declarada")

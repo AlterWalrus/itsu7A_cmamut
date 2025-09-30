@@ -59,7 +59,7 @@ except Exception as e:
 
 inter = IRGen()
 ir = inter.generate(ast)
-#print(ir)
+print(ir)
 
 asm = ASMGen()
 final_code = asm.generate(ir)

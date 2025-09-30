@@ -39,7 +39,7 @@ class IRGen:
 
 		while stack:
 			n = stack.pop()
-			var_name = f"t{self.t}"
+			var_name = f"_t{self.t}"
 			code += f"\n{n.value} {n.children[0].value} {n.children[1].value} {var_name}"
 			n.value = var_name
 			self.t += 1
