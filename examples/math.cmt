@@ -1,13 +1,13 @@
 whencuando
-	:v "valor 1:"
-	var n1
+	:v "primer numero:"
+	var n1 = 0
 	plox n1
 
-	:v "valor 2:"
-	var n2
+	:v "segundo numero:"
+	var n2 = 0
 	plox n2
 
-	var n3 = n1 + n2
-	:v "resultado:"
-	:v n3
+	:v "resultado"
+	var res = n1 + n2
+	:v res
 xdxd

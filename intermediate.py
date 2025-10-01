@@ -16,7 +16,7 @@ class IRGen:
 					code += f"\n= {first_child.value} {node.value}"
 				else:
 					code += self.evaluate(first_child)
-					code += f"\n= t{self.t-1} {node.value}"
+					code += f"\n= _t{self.t-1} {node.value}"
 
 			elif node.type == NodeType.PRINT:
 				code += f"\nprint {node.value}"

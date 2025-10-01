@@ -2,7 +2,7 @@
 .stack
 .data
 
-n1 db ?
+n db ?
 
 .code
 main proc
@@ -14,10 +14,8 @@ lea dx, s
 int 21h
 endm
 
-mov al, 0
-mov n1, al
-mov al, n1
-call print_num
+mov al, 256
+mov n, al
 
 int 27h
 main endp
