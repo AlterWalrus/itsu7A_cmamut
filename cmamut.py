@@ -37,29 +37,21 @@ try:
 	tokens = tokenize(code)
 except Exception as e:
 	sys.exit(f"[ERROR LEXICO] {e}")
-for t in tokens:
-	break
-	print(t)
-#print()
-#print("-"*32)
 
 try:
 	parser = Parser(tokens)
 	ast = parser.parse()
 except Exception as e:
 	sys.exit(f"[ERROR SINTACTICO] {e}")
-#print(ast)
-#print("-"*32)
 
 try:
 	symbol_table = semantic.analyze(ast)
 except Exception as e:
 	sys.exit(f"[ERROR SEMANTICO] {e}")
-#print(symbol_table)
 
 inter = IRGen()
 ir = inter.generate(ast)
-#print(ir)
+print(ir)
 
 asm = ASMGen()
 final_code = asm.generate(ir)

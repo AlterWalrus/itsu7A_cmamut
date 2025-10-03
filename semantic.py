@@ -28,6 +28,8 @@ def valid_declaration(node):
 		raise RuntimeError(f"la variable {node.value} ya ha sido declarada")
 
 	table[node.value] = node.children[0].value
+	if not table[node.value].isdigit():
+		table[node.value] = "expresion"
 	valid_assign(node)
 
 def valid_assign(node):
@@ -54,3 +56,9 @@ def valid_input(node):
 	if node.value[0] != '"' :
 		if not node.value in table.keys():
 			raise RuntimeError(f"la variable {node.value} no ha sido declarada")
+
+def print_table(d: dict):
+	print("{:<15} {:<10}".format('VARIABLE', 'VALOR'))
+	for k in d.keys():
+		print("{:<15} {:<10}".format(k, d[k]))
+   
