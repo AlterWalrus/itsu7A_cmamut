@@ -58,7 +58,10 @@ def valid_input(node):
 			raise RuntimeError(f"la variable {node.value} no ha sido declarada")
 
 def print_table(d: dict):
-	print("{:<15} {:<10}".format('VARIABLE', 'VALOR'))
+	print("-"*29)
+	print("|{:<15} |{:<10}|".format('VARIABLE', 'VALOR'))
+	print("-"*29)
 	for k in d.keys():
-		print("{:<15} {:<10}".format(k, d[k]))
+		print("|{:<15} |{:<10}|".format(k, d[k]))
+	print("-"*29)
    

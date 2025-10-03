@@ -8,7 +8,10 @@ class ASMGen:
 		self.string_id = 0
 		self.temps = set()
 		
-	def generate(self, code: str):
+	def generate(self, code: str, table: dict):
+		for v in table.keys():
+			self.data_block += f"{v} db ?\n"
+
 		for line in code.splitlines():
 			if line == "":
 				continue
@@ -46,9 +49,6 @@ class ASMGen:
 					self.code_block += f"mov bl, {tokens[2]}\n"
 					self.code_block += f"div bl\n"
 					self.code_block += f"mov {tokens[3]}, al\n"
-
-				case "dec":
-					self.data_block += f"{tokens[1]} db ?\n"
 				
 				case "print":
 					if tokens[1].startswith('"'):

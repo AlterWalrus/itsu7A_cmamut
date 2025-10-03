@@ -54,5 +54,5 @@ ir = inter.generate(ast)
 print(ir)
 
 asm = ASMGen()
-final_code = asm.generate(ir)
+final_code = asm.generate(ir, symbol_table)
 save_file(file_name, final_code)
